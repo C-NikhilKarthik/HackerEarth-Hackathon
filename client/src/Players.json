@@ -1,0 +1,202 @@
+[
+    {
+        "team": "India",
+        "Players": [
+            "Rohit Sharma",
+            "Shubman Gill",
+            "Virat Kohli",
+            "Shreyas Iyer",
+            "KL Rahul",
+            "Suryakumar Yadav",
+            "Hardik Pandya",
+            "Ravindra Jadeja",
+            "Ishan Kishan",
+            "Ravichandran Ashwin",
+            "Shardul Thakur",
+            "Jasprit Bumrah",
+            "Kuldeep Yadav",
+            "Mohammed Shami",
+            "Mohammed Siraj"
+        ]
+    },
+    {
+        "team": "Australia",
+        "players": [
+            "Pat Cummins",
+            "Sean Abbott",
+            "Ashton Agar",
+            "Alex Carey",
+            "Cameron Green",
+            "Josh Hazlewood",
+            "Travis Head",
+            "Josh Inglis",
+            "Mitchell Marsh",
+            "Glenn Maxwell",
+            "Steve Smith",
+            "Mitchell Starc",
+            "Marcus Stoinis",
+            "David Warner",
+            "Adam Zampa"
+        ]
+    },
+    {
+        "team": "England",
+        "players": [
+            "Jos Buttler",
+            "Moeen Ali",
+            "Gus Atkinson",
+            "Jonny Bairstow",
+            "Sam Curran",
+            "Liam Livingstone",
+            "Dawid Malan",
+            "Adil Rashid",
+            "Joe Root",
+            "Harry Brook",
+            "Ben Stokes",
+            "Reece Topley",
+            "David Willey",
+            "Mark Wood",
+            "Chris Woakes"
+        ]
+    },
+    {
+        "team": "Pakistan",
+        "players": [
+            "Babar Azam",
+            "Fakhar Zaman",
+            "Imam-ul-Haq",
+            "Salman Ali Agha",
+            "Iftikhar Ahmed",
+            "Mohammad Rizwan",
+            "Mohammad Haris",
+            "Shadab Khan",
+            "Mohammad Nawaz",
+            "Usama Mir",
+            "Haris Rauf",
+            "Mohammad Wasim Jnr",
+            "Hasan Ali",
+            "Shaheen Afridi",
+            "Saud Shakeel"
+        ]
+    },
+    {
+        "team": "New Zealand",
+        "players": [
+            "Kane Williamson",
+            "Trent Boult",
+            "Mark Chapman",
+            "Devon Conway",
+            "Lockie Ferguson",
+            "Matt Henry",
+            "Tom Latham",
+            "Daryl Mitchell",
+            "Jimmy Neesham",
+            "Glenn Phillips",
+            "Rachin Ravindra",
+            "Mitch Santner",
+            "Ish Sodhi",
+            "Tim Southee",
+            "Will Young"
+        ]
+    },
+    {
+        "team": "Sri Lanka",
+        "players": [
+            "Dasun Shanaka",
+            "Kusal Mendis",
+            "Dimuth Karunaratne",
+            "Kusal Janith",
+            "Pathum Nissanka",
+            "Charith Asalanka",
+            "Dhananjaya de Silva",
+            "Sadeera Samarawickrama",
+            "Dunith Wellalage",
+            "Dushan Hemantha",
+            "Dilshan Madushanka*",
+            "Kasun Rajitha",
+            "Lahiru Kumara",
+            "Maheesh Theekshana*",
+            "Matheesha Pathirana"
+        ]
+    },
+    {
+        "team": "Bangladesh",
+        "players": [
+            "Shakib Al Hasan",
+            "Litton Das",
+            "Tanzid Hasan Tamim",
+            "Najmul Hossain Shanto",
+            "Tawhid Hridoy",
+            "Mushfiqur Rahim",
+            "Mahmudullah Riyad",
+            "Mehidy Hasan Miraz",
+            "Nasum Ahmed",
+            "Shak Mahedi Hasan",
+            "Taskin Ahmed",
+            "Mustafizur Rahman",
+            "Hasan Mahmud",
+            "Shoriful Islam",
+            "Tanzim Hasan Sakib"
+        ]
+    },
+    {
+        "team": "South Africa",
+        "players": [
+            "Temba Bavuma",
+            "Gerald Coetzee",
+            "Quinton de Kock",
+            "Reeza Hendricks",
+            "Marco Jansen",
+            "Heinrich Klaasen",
+            "Keshav Maharaj",
+            "Aiden Markram",
+            "David Miller",
+            "Lungi Ngidi",
+            "Andile Phehlukwayo",
+            "Kagiso Rabada",
+            "Tabraiz Shamsi",
+            "Rassie van der Dussen",
+            "Lizaad Williams"
+        ]
+    },
+    {
+        "team": "Afghanistan",
+        "players": [
+            "Hashmatullah Shahidi",
+            "Rahmanullah Gurbaz",
+            "Ibrahim Zadran",
+            "Riaz Hassan",
+            "Rahmat Shah",
+            "Najibullah Zadran",
+            "Mohammad Nabi",
+            "Ikram Alikhil",
+            "Azmatullah Omarzai",
+            "Rashid Khan",
+            "Mujeeb ur Rahman",
+            "Noor Ahmad",
+            "Fazalhaq Farooqi",
+            "Abdul Rahman",
+            "Naveen-ul-Haq"
+        ]
+    },
+    {
+        "team": "Netherlands",
+        "players": [
+            "Scott Edwards",
+            "Max O'Dowd",
+            "Bas de Leede",
+            "Vikram Singh",
+            "Teja Nidamanuru",
+            "Paul van Meekeren",
+            "Colin Ackermann",
+            "Roelof van der Merwe",
+            "Logan van Beek",
+            "Aryan Dutt",
+            "Ryan Klein",
+            "Wesley Barresi",
+            "Saqib Zulfiqar",
+            "Shariz Ahmad",
+            "Sybrand Engelbrecht"
+        ]
+    }
+]
