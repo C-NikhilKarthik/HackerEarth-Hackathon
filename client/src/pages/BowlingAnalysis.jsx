@@ -28,7 +28,7 @@ const teamFlags = {
   Netherlands: netherlands,
 };
 
-const HomePage = () => {
+const BowlingAnalysis= () => {
   const [selectedTeam1, setSelectedTeam1] = useState([]);
   const [selectedTeam2, setSelectedTeam2] = useState([]);
   const [Data,SetData] = useState({
@@ -48,20 +48,13 @@ const HomePage = () => {
   };
 
   function getBatters(){
-    console.log({
-      "match_id_scaled": 1,
-      "innings": Data.innings,
-      "batsmen_encoded":data.Team1.Player,
-      "bowler_encoded": data.Team2.Player,
-      "no_of_balls": Data.no_of_balls
-    })
     try{
-      axios.post("http://localhost:5000/predict_batter_strike_rate",{
-        "match_id_scaled": 1,
+      axios.post("http://localhost:5000/predict_bowler_economy",{
+        "match_id": 65646,
+        "venue": "Bellerive Oval",
         "innings": Data.innings,
-        "batsmen_encoded":data.Team1.Player,
-        "bowler_encoded": data.Team2.Player,
-        "no_of_balls": Data.no_of_balls
+        "batting_team": data.Team2.Name,
+        "bowler": data.Team1.Player
       }).then((response) => {
         console.log(response)
       }).catch((error)=> {
@@ -154,7 +147,7 @@ const HomePage = () => {
     <div className="w-full h-full flex justify-center min-h-screen bg-[#320073] p-2">
       <div className="pt-44 p-4 items-center flex flex-col w-full">
         <div className="text-slate-200 text-2xl font-semibold">
-          Choose the Team and Batsmen
+          Choose the Team and Bowler
         </div>
 
         <div className="flex items-center w-full flex-col gap-10 p-6">
@@ -214,7 +207,7 @@ const HomePage = () => {
           </select>
 
           <div className="text-slate-200 text-2xl font-semibold">
-            Choose the Team and Bowler
+            Choose the Team
           </div>
 
 
@@ -255,23 +248,6 @@ const HomePage = () => {
             )}
           </div>
 
-          <select
-            className="rounded w-60 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
-            onChange={(e) => handleTeam2Player(e.target.value)}
-          >
-            <option value="" disabled selected>
-              -- Select Player --
-            </option>
-            {selectedTeam2.map((player, index) => (
-              <option
-                className="rounded text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
-                value={player}
-                key={index}
-              >
-                {player}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div className="flex gap-4">
@@ -308,22 +284,6 @@ const HomePage = () => {
           </label>
         </div>
 
-        <div className="flex gap-4 my-6">
-          <label className="flex whitespace-nowrap items-center text-gray-400 gap-2">Select number of Balls</label>
-          <input
-            onChange={(e) =>
-              SetData((prevData) => ({
-                ...prevData,
-                no_of_balls: Number(e.target.value) // Parse to an integer base 10
-              }))
-            }
-            className="rounded w-20 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
-            type="number"
-            required
-          ></input>
-
-        </div>
-
 
         <button
           onClick={getBatters}
@@ -337,4 +297,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default BowlingAnalysis;

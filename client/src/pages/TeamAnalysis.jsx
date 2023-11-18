@@ -1,8 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Players from "../Players.json";
-import Navbar from "../components/navbar";
-import { VscArrowCircleRight } from 'react-icons/vsc';
-import axios from 'axios'
 import { FaChevronDown } from "react-icons/fa";
 import india from '../assets/india.png';
 import pakistan from '../assets/pakistan.png';
@@ -28,13 +26,10 @@ const teamFlags = {
   Netherlands: netherlands,
 };
 
-const HomePage = () => {
+const TeamAnalysis = () => {
   const [selectedTeam1, setSelectedTeam1] = useState([]);
   const [selectedTeam2, setSelectedTeam2] = useState([]);
-  const [Data,SetData] = useState({
-    innings: 0,
-    no_of_balls: 0,
-  })
+  const [innings, setInnings] = useState("");
   const [isRadioVisible, setIsRadioVisible] = useState({
     Team1: true,
     Team2: true
@@ -46,32 +41,6 @@ const HomePage = () => {
       [team]: !prevVisible[team],
     }));
   };
-
-  function getBatters(){
-    console.log({
-      "match_id_scaled": 1,
-      "innings": Data.innings,
-      "batsmen_encoded":data.Team1.Player,
-      "bowler_encoded": data.Team2.Player,
-      "no_of_balls": Data.no_of_balls
-    })
-    try{
-      axios.post("http://localhost:5000/predict_batter_strike_rate",{
-        "match_id_scaled": 1,
-        "innings": Data.innings,
-        "batsmen_encoded":data.Team1.Player,
-        "bowler_encoded": data.Team2.Player,
-        "no_of_balls": Data.no_of_balls
-      }).then((response) => {
-        console.log(response)
-      }).catch((error)=> {
-        console.log(error)
-      })
-    }
-    catch(err){
-      console.log(err)
-    }
-  }
 
   const [data, setData] = useState({
     Team1: {
@@ -128,7 +97,7 @@ const HomePage = () => {
   const handleTeam2Player = (data) => {
     setData((prevData) => ({
       ...prevData,
-      Team2: {
+      Team1: {
         ...prevData.Team2,
         Player: data,
       },
@@ -149,18 +118,17 @@ const HomePage = () => {
     }
   }, [data.Team1.Name, data.Team2.Name]);
 
-
   return (
     <div className="w-full h-full flex justify-center min-h-screen bg-[#320073] p-2">
       <div className="pt-44 p-4 items-center flex flex-col w-full">
         <div className="text-slate-200 text-2xl font-semibold">
-          Choose the Team and Batsmen
+          Choose the Team and Player
         </div>
 
         <div className="flex items-center w-full flex-col gap-10 p-6">
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300">Batting Team</div>
+              <div className="text-slate-300">Team 1</div>
               <div className="text-gray-100 font-semibold">{data?.Team1?.Name}</div>
               {data.Team1.Name && teamFlags[data.Team1.Name] && (
                 <img
@@ -195,7 +163,7 @@ const HomePage = () => {
             )}
           </div>
 
-          <select
+          {/* <select
             className="rounded w-60 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
             onChange={(e) => handleTeam1Player(e.target.value)}
           >
@@ -211,16 +179,12 @@ const HomePage = () => {
                 {player}
               </option>
             ))}
-          </select>
-
-          <div className="text-slate-200 text-2xl font-semibold">
-            Choose the Team and Bowler
-          </div>
+          </select> */}
 
 
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300" >Bowling Team</div>
+              <div className="text-slate-300">Team 2</div>
               <div className="text-gray-100 font-semibold">{data?.Team2?.Name}</div>
               {data.Team2.Name && teamFlags[data.Team2.Name] && (
                 <img
@@ -255,7 +219,7 @@ const HomePage = () => {
             )}
           </div>
 
-          <select
+          {/* <select
             className="rounded w-60 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
             onChange={(e) => handleTeam2Player(e.target.value)}
           >
@@ -271,7 +235,7 @@ const HomePage = () => {
                 {player}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
 
         <div className="flex gap-4">
@@ -283,11 +247,8 @@ const HomePage = () => {
             <input
               type="radio"
               value="1st Innings"
-              checked={1 === Data.innings}
-              onChange={() => SetData((prevData)=>({
-                ...prevData,
-                innings:1
-              }))}
+              checked={"1" === innings}
+              onChange={() => setInnings("1")}
             />
             1st Innings
           </label>
@@ -298,43 +259,15 @@ const HomePage = () => {
             <input
               type="radio"
               value="2nd Innings"
-              checked={2 === Data.innings}
-              onChange={() => SetData((prevData)=>({
-                ...prevData,
-                innings:2
-              }))}            
+              checked={"2" === innings}
+              onChange={() => setInnings("2")}
             />
             2nd Innings
           </label>
         </div>
-
-        <div className="flex gap-4 my-6">
-          <label className="flex whitespace-nowrap items-center text-gray-400 gap-2">Select number of Balls</label>
-          <input
-            onChange={(e) =>
-              SetData((prevData) => ({
-                ...prevData,
-                no_of_balls: Number(e.target.value) // Parse to an integer base 10
-              }))
-            }
-            className="rounded w-20 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
-            type="number"
-            required
-          ></input>
-
-        </div>
-
-
-        <button
-          onClick={getBatters}
-          className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-md px-5 py-2.5 flex items-center mt-4"
-        >
-          Start Predicting <VscArrowCircleRight className="ml-2 text-3xl" />
-        </button>  
-
       </div>
     </div>
   );
 };
 
-export default HomePage;
+export default TeamAnalysis;
