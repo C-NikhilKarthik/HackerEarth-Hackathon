@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.6.2",
     "flowbite-react": "^0.6.4",
     "gsap": "^3.12.2",
     "lottie-react": "^2.4.0",
