@@ -65,7 +65,8 @@ def predict_batter_strike_rate():
         runs=predicted_runs.tolist()
         # print(data['no_of_balls'])
         strike_rate_against_bowler=(runs[0]/data['no_of_balls'])*100
-        return jsonify({'strike_rate_against_bowler': strike_rate_against_bowler})
+        return jsonify({'strike_rate_against_bowler': strike_rate_against_bowler,
+                        'runs':runs})
 
     except Exception as e:
         return jsonify({'error': str(e)})
