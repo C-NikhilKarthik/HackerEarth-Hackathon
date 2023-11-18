@@ -1,8 +1,0 @@
-1. match_id	
-2. innings	
-3. strikerEncoded	
-4. bowlerEncoded	
-5. balls_bowled_to_batsman	
-6. total_runs_given
-
-Prediction: economy
