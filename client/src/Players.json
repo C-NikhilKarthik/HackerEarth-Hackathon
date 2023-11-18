@@ -1,42 +1,42 @@
 [
     {
         "team": "India",
-        "Players": [
-            "Rohit Sharma",
+        "players": [
+            "RG Sharma",
             "Shubman Gill",
-            "Virat Kohli",
-            "Shreyas Iyer",
+            "V Kohli",
+            "SS Iyer",
             "KL Rahul",
-            "Suryakumar Yadav",
-            "Hardik Pandya",
-            "Ravindra Jadeja",
+            "SA Yadav",
+            "HH Pandya",
+            "RA Jadeja",
             "Ishan Kishan",
-            "Ravichandran Ashwin",
-            "Shardul Thakur",
-            "Jasprit Bumrah",
+            "R Ashwin",
+            "SN Thakur",
+            "JJ Bumrah",
             "Kuldeep Yadav",
             "Mohammed Shami",
-            "Mohammed Siraj"
-        ]
+            "Mohammed Siraj"  ]
+
     },
     {
         "team": "Australia",
         "players": [
-            "Pat Cummins",
-            "Sean Abbott",
-            "Ashton Agar",
-            "Alex Carey",
-            "Cameron Green",
-            "Josh Hazlewood",
-            "Travis Head",
-            "Josh Inglis",
-            "Mitchell Marsh",
-            "Glenn Maxwell",
-            "Steve Smith",
-            "Mitchell Starc",
-            "Marcus Stoinis",
-            "David Warner",
-            "Adam Zampa"
+            "PJ Cummins",
+            "SA Abbott",
+            "AC Agar",
+            "AT Carey",
+            "C Green",
+            "JR Hazlewood",
+            "TM Head",
+            "JP Inglis",
+            "MR Marsh",
+            "GJ Maxwell",
+            "SPD Smith",
+            "MA Starc",
+            "MP Stoinis",
+            "DA Warner",
+            "A Zampa"
         ]
     },
     {

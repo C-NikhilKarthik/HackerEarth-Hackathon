@@ -1,6 +1,6 @@
 function Navbar() {
   return (
-    <div className="w-full p-2 flex fixed top-0 left-0 shadow-lg justify-center">
+    <div className="w-full p-2 bg-transparent backdrop-blur z-50 flex fixed top-0 left-0 shadow-lg justify-center">
       <img
         className="h-[50]"
         src={
