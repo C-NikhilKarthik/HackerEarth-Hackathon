@@ -2,6 +2,29 @@ import { useEffect, useState } from "react";
 import Players from "../Players.json";
 import Navbar from "../components/navbar";
 import { FaChevronDown } from "react-icons/fa";
+import india from '../assets/india.png';
+import pakistan from '../assets/pakistan.png';
+import australia from '../assets/australia.png';
+import england from '../assets/england.svg';
+import newzealand from '../assets/newzeland.png';
+import southafrica from '../assets/sa.png';
+import sriLanka from '../assets/sl.png';
+import bangladesh from '../assets/b.png';
+import afghanistan from '../assets/acb.png';
+import netherlands from '../assets/n.png';
+
+const teamFlags = {
+  India: india,
+  Pakistan: pakistan,
+  Australia: australia,
+  England: england,
+  "New Zealand": newzealand,
+  "South Africa": southafrica,
+  "Sri Lanka": sriLanka,
+  Bangladesh: bangladesh,
+  Afghanistan: afghanistan,
+  Netherlands: netherlands,
+};
 
 const HomePage = () => {
   const [selectedTeam1, setSelectedTeam1] = useState([]);
@@ -108,7 +131,13 @@ const HomePage = () => {
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
               <div className="text-slate-300">Team 1</div>
               <div className="text-gray-100 font-semibold">{data?.Team1?.Name}</div>
-
+              {data.Team1.Name && teamFlags[data.Team1.Name] && (
+                <img
+                  src={teamFlags[data.Team1.Name]}
+                  alt={`${data.Team1.Name} Flag`}
+                  className="rounded-full w-10 h-10"
+                />
+              )}
               <div
                 className="absolute right-4 text-slate-200 cursor-pointer"
                 onClick={() => handleIconClick("Team1")}>
@@ -158,7 +187,13 @@ const HomePage = () => {
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
               <div className="text-slate-300">Team 2</div>
               <div className="text-gray-100 font-semibold">{data?.Team2?.Name}</div>
-
+              {data.Team2.Name && teamFlags[data.Team2.Name] && (
+                <img
+                  src={teamFlags[data.Team2.Name]}
+                  alt={`${data.Team2.Name} Flag`}
+                  className="rounded-full w-10 h-10"
+                />
+              )}
               <div
                 className="absolute right-4 text-slate-200 cursor-pointer"
                 onClick={() => handleIconClick("Team2")}>
