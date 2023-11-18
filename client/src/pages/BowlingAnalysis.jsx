@@ -25,8 +25,9 @@ const teamFlags = {
   Netherlands: netherlands,
 };
 
-const HomePage = () => {
+const BowlingAnalysis = () => {
   const [selectedTeam1, setSelectedTeam1] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [selectedTeam2, setSelectedTeam2] = useState([]);
   const [innings, setInnings] = useState("");
   const [isRadioVisible, setIsRadioVisible] = useState({
@@ -93,15 +94,6 @@ const HomePage = () => {
     }));
   };
 
-  const handleTeam2Player = (data) => {
-    setData((prevData) => ({
-      ...prevData,
-      Team1: {
-        ...prevData.Team2,
-        Player: data,
-      },
-    }));
-  };
 
   useEffect(() => {
     if (data.Team1.Name) {
@@ -127,7 +119,7 @@ const HomePage = () => {
         <div className="flex items-center w-full flex-col gap-10 p-6">
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300">Batting Team</div>
+              <div className="text-slate-300">Bowlers Team</div>
               <div className="text-gray-100 font-semibold">{data?.Team1?.Name}</div>
               {data.Team1.Name && teamFlags[data.Team1.Name] && (
                 <img
@@ -183,7 +175,7 @@ const HomePage = () => {
 
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300" >Bowling Team</div>
+              <div className="text-slate-300">Batting Team</div>
               <div className="text-gray-100 font-semibold">{data?.Team2?.Name}</div>
               {data.Team2.Name && teamFlags[data.Team2.Name] && (
                 <img
@@ -218,7 +210,7 @@ const HomePage = () => {
             )}
           </div>
 
-          <select
+          {/* <select
             className="rounded w-60 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
             onChange={(e) => handleTeam2Player(e.target.value)}
           >
@@ -234,7 +226,7 @@ const HomePage = () => {
                 {player}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
 
         <div className="flex gap-4">
@@ -269,4 +261,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default BowlingAnalysis;

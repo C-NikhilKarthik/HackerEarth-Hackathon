@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Players from "../Players.json";
 import { FaChevronDown } from "react-icons/fa";
@@ -25,7 +26,7 @@ const teamFlags = {
   Netherlands: netherlands,
 };
 
-const HomePage = () => {
+const TeamAnalysis = () => {
   const [selectedTeam1, setSelectedTeam1] = useState([]);
   const [selectedTeam2, setSelectedTeam2] = useState([]);
   const [innings, setInnings] = useState("");
@@ -127,7 +128,7 @@ const HomePage = () => {
         <div className="flex items-center w-full flex-col gap-10 p-6">
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300">Batting Team</div>
+              <div className="text-slate-300">Team 1</div>
               <div className="text-gray-100 font-semibold">{data?.Team1?.Name}</div>
               {data.Team1.Name && teamFlags[data.Team1.Name] && (
                 <img
@@ -162,7 +163,7 @@ const HomePage = () => {
             )}
           </div>
 
-          <select
+          {/* <select
             className="rounded w-60 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
             onChange={(e) => handleTeam1Player(e.target.value)}
           >
@@ -178,12 +179,12 @@ const HomePage = () => {
                 {player}
               </option>
             ))}
-          </select>
+          </select> */}
 
 
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300" >Bowling Team</div>
+              <div className="text-slate-300">Team 2</div>
               <div className="text-gray-100 font-semibold">{data?.Team2?.Name}</div>
               {data.Team2.Name && teamFlags[data.Team2.Name] && (
                 <img
@@ -218,7 +219,7 @@ const HomePage = () => {
             )}
           </div>
 
-          <select
+          {/* <select
             className="rounded w-60 text-gray-800 bg-slate-300/60 backdrop-blur outline-none"
             onChange={(e) => handleTeam2Player(e.target.value)}
           >
@@ -234,7 +235,7 @@ const HomePage = () => {
                 {player}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
 
         <div className="flex gap-4">
@@ -269,4 +270,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default TeamAnalysis;
