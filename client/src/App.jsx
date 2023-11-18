@@ -15,7 +15,7 @@ function App() {
       Name: "",
       Player: "",
     },
-  });
+  });v
 
   const handleTeam1Change = (selectedTeam) => {
     if (selectedTeam !== data.Team2.Name) {
