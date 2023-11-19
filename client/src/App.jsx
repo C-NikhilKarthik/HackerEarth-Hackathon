@@ -8,7 +8,7 @@ import {
   Route,
 
 } from "react-router-dom";
-import StartPage from "./pages/startPage";
+import StartPage from "./pages/StartPage";
 import Navbar from "./components/Navbar";
 import BowlingAnalysis from "./pages/BowlingAnalysis";
 import TeamAnalysis from "./pages/TeamAnalysis";
