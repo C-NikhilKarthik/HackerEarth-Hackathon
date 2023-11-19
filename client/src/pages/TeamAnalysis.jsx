@@ -257,7 +257,7 @@ const TeamAnalysis = () => {
           Team Analysis
         </div>
         <div className="text-slate-200 text-2xl font-semibold">
-          Choose the Team and Bowler
+          Choose the Team and Bowlers
         </div>
 
         <div className="flex items-center w-full flex-col gap-10 p-6">
@@ -366,7 +366,7 @@ const TeamAnalysis = () => {
           </div>
 
           <div className="text-slate-200 text-2xl font-semibold">
-            Choose the Team
+            Choose the Team and Bowlers
           </div>
 
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
