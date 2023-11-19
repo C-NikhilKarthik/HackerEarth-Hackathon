@@ -1,19 +1,57 @@
 import { useEffect, useState } from "react";
 import Players from "../Players.json";
 import Navbar from "../components/navbar";
-import { VscArrowCircleRight } from 'react-icons/vsc';
-import axios from 'axios'
+import { VscArrowCircleRight } from "react-icons/vsc";
+import axios from "axios";
 import { FaChevronDown } from "react-icons/fa";
-import india from '../assets/india.png';
-import pakistan from '../assets/pakistan.png';
-import australia from '../assets/australia.png';
-import england from '../assets/england.svg';
-import newzealand from '../assets/newzeland.png';
-import southafrica from '../assets/sa.png';
-import sriLanka from '../assets/sl.png';
-import bangladesh from '../assets/b.png';
-import afghanistan from '../assets/acb.png';
-import netherlands from '../assets/n.png';
+import india from "../assets/india.png";
+import pakistan from "../assets/pakistan.png";
+import australia from "../assets/australia.png";
+import england from "../assets/england.svg";
+import newzealand from "../assets/newzeland.png";
+import southafrica from "../assets/sa.png";
+import sriLanka from "../assets/sl.png";
+import bangladesh from "../assets/b.png";
+import afghanistan from "../assets/acb.png";
+import netherlands from "../assets/n.png";
+
+import Box from "@mui/material/Box";
+// import Button from '@mui/material/Button';
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+
+const bowlerClasses = {
+  bowler_classes: [
+    {
+      id: 1,
+      class: "Dominant",
+    },
+    {
+      id: 2,
+      class: "Highly Effective",
+    },
+    {
+      id: 3,
+      class: "Consistent Performer",
+    },
+    {
+      id: 4,
+      class: "Dependable Contributor ",
+    },
+    {
+      id: 5,
+      class: "Occasionally Outstanding",
+    },
+    {
+      id: 6,
+      class: "Adaptable and Learning",
+    },
+    {
+      id: 7,
+      class: "Early Stage/Inexperienced",
+    },
+  ],
+};
 
 const teamFlags = {
   India: india,
@@ -28,16 +66,32 @@ const teamFlags = {
   Netherlands: netherlands,
 };
 
-const BowlingAnalysis= () => {
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+const BowlingAnalysis = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [Response, setResponse] = useState({});
   const [selectedTeam1, setSelectedTeam1] = useState([]);
   const [selectedTeam2, setSelectedTeam2] = useState([]);
-  const [Data,SetData] = useState({
+  const [Data, SetData] = useState({
     innings: 0,
     no_of_balls: 0,
-  })
+  });
   const [isRadioVisible, setIsRadioVisible] = useState({
     Team1: true,
-    Team2: true
+    Team2: true,
   });
 
   const handleIconClick = (team) => {
@@ -47,23 +101,27 @@ const BowlingAnalysis= () => {
     }));
   };
 
-  function getBatters(){
-    try{
-      axios.post("http://localhost:5000/predict_bowler_economy",{
-        "match_id": 65646,
-        "venue": "Bellerive Oval",
-        "innings": Data.innings,
-        "batting_team": data.Team2.Name,
-        "bowler": data.Team1.Player
-      }).then((response) => {
-        console.log(response)
-      }).catch((error)=> {
-        console.log(error)
-      })
+  function getBatters() {
+    try {
+      axios
+        .post("http://localhost:5000/predict_bowler_economy", {
+          match_id: 65646,
+          venue: "Bellerive Oval",
+          innings: Data.innings,
+          batting_team: data.Team2.Name,
+          bowler: data.Team1.Player,
+        })
+        .then((response) => {
+          setResponse(response?.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
+
+    handleOpen();
   }
 
   const [data, setData] = useState({
@@ -142,10 +200,12 @@ const BowlingAnalysis= () => {
     }
   }, [data.Team1.Name, data.Team2.Name]);
 
-
   return (
     <div className="w-full h-full flex justify-center min-h-screen bg-[#320073] p-2">
-      <div className="pt-44 p-4 items-center flex flex-col w-full">
+      <div className="pt-24 p-4 items-center flex flex-col w-full">
+        <div className="text-slate-200 text-4xl mb-10 font-bold">
+          Bowling Analysis
+        </div>
         <div className="text-slate-200 text-2xl font-semibold">
           Choose the Team and Bowler
         </div>
@@ -154,7 +214,9 @@ const BowlingAnalysis= () => {
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
               <div className="text-slate-300">Batting Team</div>
-              <div className="text-gray-100 font-semibold">{data?.Team1?.Name}</div>
+              <div className="text-gray-100 font-semibold">
+                {data?.Team1?.Name}
+              </div>
               {data.Team1.Name && teamFlags[data.Team1.Name] && (
                 <img
                   src={teamFlags[data.Team1.Name]}
@@ -164,7 +226,8 @@ const BowlingAnalysis= () => {
               )}
               <div
                 className="absolute right-4 text-slate-200 cursor-pointer"
-                onClick={() => handleIconClick("Team1")}>
+                onClick={() => handleIconClick("Team1")}
+              >
                 <FaChevronDown />
               </div>
             </div>
@@ -210,11 +273,12 @@ const BowlingAnalysis= () => {
             Choose the Team
           </div>
 
-
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300" >Bowling Team</div>
-              <div className="text-gray-100 font-semibold">{data?.Team2?.Name}</div>
+              <div className="text-slate-300">Bowling Team</div>
+              <div className="text-gray-100 font-semibold">
+                {data?.Team2?.Name}
+              </div>
               {data.Team2.Name && teamFlags[data.Team2.Name] && (
                 <img
                   src={teamFlags[data.Team2.Name]}
@@ -224,7 +288,8 @@ const BowlingAnalysis= () => {
               )}
               <div
                 className="absolute right-4 text-slate-200 cursor-pointer"
-                onClick={() => handleIconClick("Team2")}>
+                onClick={() => handleIconClick("Team2")}
+              >
                 <FaChevronDown />
               </div>
             </div>
@@ -247,51 +312,65 @@ const BowlingAnalysis= () => {
               </div>
             )}
           </div>
-
         </div>
 
         <div className="flex gap-4">
           <label className="text-slate-400">Innings</label>
 
-          <label
-            className="flex whitespace-nowrap items-center text-gray-400 gap-2 cursor-pointer"
-          >
+          <label className="flex whitespace-nowrap items-center text-gray-400 gap-2 cursor-pointer">
             <input
               type="radio"
               value="1st Innings"
               checked={1 === Data.innings}
-              onChange={() => SetData((prevData)=>({
-                ...prevData,
-                innings:1
-              }))}
+              onChange={() =>
+                SetData((prevData) => ({
+                  ...prevData,
+                  innings: 1,
+                }))
+              }
             />
             1st Innings
           </label>
 
-          <label
-            className="flex whitespace-nowrap items-center text-gray-400 gap-2 cursor-pointer"
-          >
+          <label className="flex whitespace-nowrap items-center text-gray-400 gap-2 cursor-pointer">
             <input
               type="radio"
               value="2nd Innings"
               checked={2 === Data.innings}
-              onChange={() => SetData((prevData)=>({
-                ...prevData,
-                innings:2
-              }))}            
+              onChange={() =>
+                SetData((prevData) => ({
+                  ...prevData,
+                  innings: 2,
+                }))
+              }
             />
             2nd Innings
           </label>
         </div>
-
 
         <button
           onClick={getBatters}
           className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-md px-5 py-2.5 flex items-center mt-4"
         >
           Start Predicting <VscArrowCircleRight className="ml-2 text-3xl" />
-        </button>  
-
+        </button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {data.Team1.Player}'s Performance : {Response?.economy_category}
+            </Typography>
+            {bowlerClasses.bowler_classes.map((bowlerClass) => (
+              <Typography key={bowlerClass.id} variant="h6" component="h2">
+                [{bowlerClass.id}] {bowlerClass.class}
+              </Typography>
+            ))}
+          </Box>
+        </Modal>
       </div>
     </div>
   );

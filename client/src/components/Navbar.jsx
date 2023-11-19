@@ -9,13 +9,13 @@ function Navbar() {
         alt="Main Logo"
       />
       <div className="flex justify-center md:justify-end items-center font-medium space-x-4">
-        <Link to="/battinganalysis" className="text-gray-600 hover:text-gray-900">
+        <Link to="/battinganalysis" className="text-gray-200 hover:text-gray-100">
           Batting Analysis
         </Link>
-        <Link to="/bowlinganalysis" className="text-gray-600 hover:text-gray-900">
+        <Link to="/bowlinganalysis" className="text-gray-200 hover:text-gray-100">
           Bowling Analysis
         </Link>
-        <Link to="/teamanalysis" className="text-gray-600 hover:text-gray-900">
+        <Link to="/teamanalysis" className="text-gray-200 hover:text-gray-100">
           Team Analysis
         </Link>
       </div>

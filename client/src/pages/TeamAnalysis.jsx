@@ -1,19 +1,47 @@
 import { useEffect, useState } from "react";
 import Players from "../Players.json";
 import Navbar from "../components/navbar";
-import { VscArrowCircleRight } from 'react-icons/vsc';
-import axios from 'axios'
+import { VscArrowCircleRight } from "react-icons/vsc";
+import axios from "axios";
 import { FaChevronDown } from "react-icons/fa";
-import india from '../assets/india.png';
-import pakistan from '../assets/pakistan.png';
-import australia from '../assets/australia.png';
-import england from '../assets/england.svg';
-import newzealand from '../assets/newzeland.png';
-import southafrica from '../assets/sa.png';
-import sriLanka from '../assets/sl.png';
-import bangladesh from '../assets/b.png';
-import afghanistan from '../assets/acb.png';
-import netherlands from '../assets/n.png';
+import india from "../assets/india.png";
+import pakistan from "../assets/pakistan.png";
+import australia from "../assets/australia.png";
+import england from "../assets/england.svg";
+import newzealand from "../assets/newzeland.png";
+import southafrica from "../assets/sa.png";
+import sriLanka from "../assets/sl.png";
+import bangladesh from "../assets/b.png";
+import afghanistan from "../assets/acb.png";
+import netherlands from "../assets/n.png";
+
+import { Typography as MuiTypography } from "@mui/material"; // Alias Typography as MuiTypography
+import {
+  Tabs,
+  Tab,
+  TableContainer,
+  Modal,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+} from "@mui/material";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  height: "80%",
+  width: 800,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  overflowY: "scroll",
+};
 
 const teamFlags = {
   India: india,
@@ -29,6 +57,21 @@ const teamFlags = {
 };
 
 const TeamAnalysis = () => {
+  const [selectedTab, setSelectedTab] = useState(0); // State to keep track of selected tab index
+
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue); // Update selected tab index
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setResponse1([]); // Clear Response1 array
+    setResponse2([]); // Clear Response2 array
+  };
+  const [Response1, setResponse1] = useState([]);
+  const [Response2, setResponse2] = useState([]);
   const [isRadioVisible, setIsRadioVisible] = useState({
     Team1: true,
     Team2: true,
@@ -36,14 +79,14 @@ const TeamAnalysis = () => {
 
   const [data, setData] = useState({
     Team1: {
-      Innings: 0,
+      Innings: 1,
       Name: "",
       Players: [],
       Bowlers: {},
       Overs: 50,
     },
     Team2: {
-      Innings: 0,
+      Innings: 2,
       Name: "",
       Players: [],
       Bowlers: {},
@@ -59,7 +102,9 @@ const TeamAnalysis = () => {
   };
 
   const handleTeamChange = (teamName, teamNo) => {
-    const isUniqueName = Object.values(data).every((team) => team.Name !== teamName);
+    const isUniqueName = Object.values(data).every(
+      (team) => team.Name !== teamName
+    );
 
     if (isUniqueName) {
       setData((prevData) => ({
@@ -67,7 +112,8 @@ const TeamAnalysis = () => {
         [teamNo]: {
           ...prevData[teamNo],
           Name: teamName,
-          Players: Players.find((team) => team.team === teamName)?.players || [],
+          Players:
+            Players.find((team) => team.team === teamName)?.players || [],
         },
       }));
     } else {
@@ -97,7 +143,7 @@ const TeamAnalysis = () => {
 
   const handleOversChange = (e, teamNo, bowler) => {
     const newOvers = parseInt(e.target.value, 10);
-    
+
     // Ensure the total overs for a bowler doesn't exceed 10
     if (!isNaN(newOvers) && newOvers >= 0 && newOvers <= 10) {
       setData((prevData) => ({
@@ -115,18 +161,101 @@ const TeamAnalysis = () => {
 
   const calculateTotalSelectedOvers = (teamNo) => {
     const selectedBowlers = data[teamNo].Bowlers || {};
-    return Object.values(selectedBowlers).reduce((totalOvers, overs) => totalOvers + overs, 0);
+    return Object.values(selectedBowlers).reduce(
+      (totalOvers, overs) => totalOvers + overs,
+      0
+    );
   };
 
   const isOversValid = (teamNo) => {
     return calculateTotalSelectedOvers(teamNo) === data[teamNo].Overs;
   };
 
+  const getBatters = () => {
+    try {
+      data.Team1.Players.forEach((batsman) => {
+        Object.keys(data.Team2.Bowlers).forEach((bowler) => {
+          const randomBalls = Math.floor(Math.random() * 21); // Generate random number of balls
 
+          axios
+            .post("http://localhost:5000/predict_batter_strike_rate", {
+              match_id_scaled: 1,
+              innings: data.Team1.Innings,
+              batsmen_encoded: batsman,
+              bowler_encoded: bowler,
+              no_of_balls: randomBalls, // Using the random number of balls here
+            })
+            .then((response) => {
+              const newEntry = {
+                batsman: batsman,
+                bowler: bowler,
+                runs: Math.round(response?.data?.runs), // Rounded runs
+                ssr: response?.data?.strike_rate_against_bowler, // Assuming 'ssr' is received from the response
+                balls: randomBalls, // Set balls property to the generated random number
+              };
+
+              // Handle the response if needed
+              console.log(
+                batsman,
+                "vs",
+                bowler,
+                Math.round(response?.data?.runs)
+              );
+              setResponse1((prevData) => [...prevData, newEntry]); // Add newEntry to Response array
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        });
+      });
+
+      data.Team2.Players.forEach((batsman) => {
+        Object.keys(data.Team1.Bowlers).forEach((bowler) => {
+          const randomBalls = Math.floor(Math.random() * 21); // Generate random number of balls
+
+          axios
+            .post("http://localhost:5000/predict_batter_strike_rate", {
+              match_id_scaled: 1,
+              innings: data.Team2.Innings,
+              batsmen_encoded: batsman,
+              bowler_encoded: bowler,
+              no_of_balls: randomBalls, // Using the random number of balls here
+            })
+            .then((response) => {
+              const newEntry = {
+                batsman: batsman,
+                bowler: bowler,
+                runs: Math.round(response?.data?.runs), // Rounded runs
+                ssr: response?.data?.strike_rate_against_bowler, // Assuming 'ssr' is received from the response
+                balls: randomBalls, // Set balls property to the generated random number
+              };
+
+              // Handle the response if needed
+              console.log(
+                batsman,
+                "vs",
+                bowler,
+                Math.round(response?.data?.runs)
+              );
+              setResponse2((prevData) => [...prevData, newEntry]); // Add newEntry to Response array
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    handleOpen();
+  };
 
   return (
     <div className="w-full h-full flex justify-center min-h-screen bg-[#320073] p-2">
-      <div className="pt-44 p-4 items-center flex flex-col w-full">
+      <div className="pt-24 p-4 items-center flex flex-col w-full">
+        <div className="text-slate-200 text-4xl mb-10 font-bold">
+          Team Analysis
+        </div>
         <div className="text-slate-200 text-2xl font-semibold">
           Choose the Team and Bowler
         </div>
@@ -135,7 +264,9 @@ const TeamAnalysis = () => {
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
               <div className="text-slate-300">Batting Team</div>
-              <div className="text-gray-100 font-semibold">{data?.Team1?.Name}</div>
+              <div className="text-gray-100 font-semibold">
+                {data?.Team1?.Name}
+              </div>
               {data.Team1.Name && teamFlags[data.Team1.Name] && (
                 <img
                   src={teamFlags[data.Team1.Name]}
@@ -145,7 +276,8 @@ const TeamAnalysis = () => {
               )}
               <div
                 className="absolute right-4 text-slate-200 cursor-pointer"
-                onClick={() => handleIconClick("Team1")}>
+                onClick={() => handleIconClick("Team1")}
+              >
                 <FaChevronDown />
               </div>
             </div>
@@ -176,15 +308,20 @@ const TeamAnalysis = () => {
                         <input
                           type="checkbox"
                           id={index}
-                          checked={data.Team1.Bowlers && bowler in data.Team1.Bowlers}
+                          checked={
+                            data.Team1.Bowlers && bowler in data.Team1.Bowlers
+                          }
                           onChange={() => handleCheckboxChange(bowler, "Team1")}
-
                         />
                         <label htmlFor={index}>{bowler}</label>
                         <input
                           type="number"
-                          max={10}  
-                          className={`${data.Team1.Bowlers && bowler in data.Team1.Bowlers ? "flex" : "hidden"} w-14 rounded bg-slate-200/40`}
+                          max={10}
+                          className={`${
+                            data.Team1.Bowlers && bowler in data.Team1.Bowlers
+                              ? "flex"
+                              : "hidden"
+                          } w-14 rounded bg-slate-200/40`}
                           onChange={(e) =>
                             setData((prevData) => ({
                               ...prevData,
@@ -198,7 +335,6 @@ const TeamAnalysis = () => {
                             }))
                           }
                         />
-
                       </div>
                     ))}
                   </div>
@@ -206,19 +342,24 @@ const TeamAnalysis = () => {
                     <label>Total Overs:</label>
                     <input
                       type="number"
-                      value={data.Team1.Overs}  // Update this line
-                      onChange={(e) => handleOversChange(e, "Team1")}  // Pass teamNo to the handler
+                      value={data.Team1.Overs} // Update this line
+                      onChange={(e) => handleOversChange(e, "Team1")} // Pass teamNo to the handler
                     />
                   </div>
                   <div>
-                    <p>Total Selected Overs: {calculateTotalSelectedOvers("Team1")}</p>  {/* Pass teamNo to the function */}
+                    <p>
+                      Total Selected Overs:{" "}
+                      {calculateTotalSelectedOvers("Team1")}
+                    </p>{" "}
+                    {/* Pass teamNo to the function */}
                     {isOversValid("Team1") ? (
                       <p>Selection is valid!</p>
                     ) : (
-                      <p style={{ color: 'red' }}>Total selected overs must be equal to {data.Team1.Overs}</p>
+                      <p style={{ color: "red" }}>
+                        Total selected overs must be equal to {data.Team1.Overs}
+                      </p>
                     )}
                   </div>
-
                 </div>
               </div>
             )}
@@ -228,11 +369,12 @@ const TeamAnalysis = () => {
             Choose the Team
           </div>
 
-
           <div className="flex items-center rounded border border-gray-500 w-full max-w-[1000px] flex-col">
             <div className="flex items-center gap-10 bg-gray-300/50 w-full p-3 relative justify-center">
-              <div className="text-slate-300" >Bowling Team</div>
-              <div className="text-gray-100 font-semibold">{data?.Team2?.Name}</div>
+              <div className="text-slate-300">Bowling Team</div>
+              <div className="text-gray-100 font-semibold">
+                {data?.Team2?.Name}
+              </div>
               {data.Team2.Name && teamFlags[data.Team2.Name] && (
                 <img
                   src={teamFlags[data.Team2.Name]}
@@ -242,13 +384,13 @@ const TeamAnalysis = () => {
               )}
               <div
                 className="absolute right-4 text-slate-200 cursor-pointer"
-                onClick={() => handleIconClick("Team2")}>
+                onClick={() => handleIconClick("Team2")}
+              >
                 <FaChevronDown />
               </div>
             </div>
             {isRadioVisible["Team2"] && (
               <div className="flex flex-col gap-8">
-
                 <div className="flex w-full flex-wrap gap-4 p-4">
                   {Players.map((team, index) => (
                     <label
@@ -273,15 +415,21 @@ const TeamAnalysis = () => {
                       <div key={index} className="flex gap-4 text-gray-400">
                         <input
                           type="checkbox"
-                          id={`team2-${index}`}  // Use a unique identifier for Team2
-                          checked={data.Team2.Bowlers && bowler in data.Team2.Bowlers}
+                          id={`team2-${index}`} // Use a unique identifier for Team2
+                          checked={
+                            data.Team2.Bowlers && bowler in data.Team2.Bowlers
+                          }
                           onChange={() => handleCheckboxChange(bowler, "Team2")}
                         />
                         <label htmlFor={`team2-${index}`}>{bowler}</label>
                         <input
                           type="number"
-                          max={10}  
-                          className={`${data.Team2.Bowlers && bowler in data.Team2.Bowlers ? "flex" : "hidden"} w-14 rounded bg-slate-200/40`}
+                          max={10}
+                          className={`${
+                            data.Team2.Bowlers && bowler in data.Team2.Bowlers
+                              ? "flex"
+                              : "hidden"
+                          } w-14 rounded bg-slate-200/40`}
                           onChange={(e) =>
                             setData((prevData) => ({
                               ...prevData,
@@ -308,27 +456,89 @@ const TeamAnalysis = () => {
                     />
                   </div>
                   <div>
-                    <p>Total Selected Overs: {calculateTotalSelectedOvers("Team2")}</p>
+                    <p>
+                      Total Selected Overs:{" "}
+                      {calculateTotalSelectedOvers("Team2")}
+                    </p>
                     {isOversValid("Team2") ? (
                       <p>Selection is valid!</p>
                     ) : (
-                      <p style={{ color: 'red' }}>Total selected overs must be equal to {data.Team2.Overs}</p>
+                      <p style={{ color: "red" }}>
+                        Total selected overs must be equal to {data.Team2.Overs}
+                      </p>
                     )}
                   </div>
-
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* <button
-          onClick={getTeam1Batting}
+        <button
+          onClick={getBatters}
           className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-md px-5 py-2.5 flex items-center mt-4"
         >
           Start Predicting <VscArrowCircleRight className="ml-2 text-3xl" />
-        </button>   */}
+        </button>
 
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div className="w-[80%] bg-slate-300 rounded">
+            <Tabs value={selectedTab} onChange={handleChange}>
+              <Tab label={data.Team1?.Name} />
+              <Tab label={data.Team2?.Name} />
+            </Tabs>
+
+            <Paper>
+              <TableContainer style={{ maxHeight: 400 }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Batsman</TableCell>
+                      <TableCell>Bowler</TableCell>
+                      <TableCell>Runs</TableCell>
+                      <TableCell>Balls</TableCell>
+                      <TableCell>SR</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {selectedTab === 0 &&
+                      // Render Team 1 data when the "Team 1" tab is selected
+                      Response1.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{row.batsman}</TableCell>
+                          <TableCell>{row.bowler}</TableCell>
+                          <TableCell>{row.runs}</TableCell>
+                          <TableCell>{row.balls}</TableCell>
+                          <TableCell>{row.ssr}</TableCell>
+                        </TableRow>
+                      ))}
+                    {selectedTab === 1 &&
+                      // Render Team 2 data when the "Team 2" tab is selected
+                      Response2.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{row.batsman}</TableCell>
+                          <TableCell>{row.bowler}</TableCell>
+                          <TableCell>{row.runs}</TableCell>
+                          <TableCell>{row.balls}</TableCell>
+                          <TableCell>{row.ssr}</TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </div>
+        </Modal>
       </div>
     </div>
   );
