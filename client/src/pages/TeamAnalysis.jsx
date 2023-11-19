@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Players from "../Players.json";
-import Navbar from "../components/navbar";
 import { VscArrowCircleRight } from "react-icons/vsc";
 import axios from "axios";
 import { FaChevronDown } from "react-icons/fa";

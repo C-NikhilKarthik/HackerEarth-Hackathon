@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import HomePage from "./pages/homePage";
-import WelcomePage from "./pages/welcomePage";
+import HomePage from "./pages/HomePage";
+import WelcomePage from "./pages/WelcomePage";
 
 import {
   BrowserRouter as Router,
@@ -9,7 +9,7 @@ import {
 
 } from "react-router-dom";
 import StartPage from "./pages/startPage";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import BowlingAnalysis from "./pages/BowlingAnalysis";
 import TeamAnalysis from "./pages/TeamAnalysis";
 
