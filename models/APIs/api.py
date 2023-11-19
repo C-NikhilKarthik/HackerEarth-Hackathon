@@ -13,7 +13,7 @@ label_encode_batter=joblib.load('../Batting/label_encoder_batter.pkl')
 label_encode_bowler_2=joblib.load('../Batting/label_encoder_bowler.pkl')
 
 
-model = joblib.load('../Bowling/bowler_economy_class_predictor.pkl')
+model = joblib.load('../Bowling/bowler_economy_class_predictor.pkl', mmap_mode='r')
 scaler = joblib.load('../Bowling/bowler_standard_scaler.pkl')
 label_encoder_batting_team = joblib.load('../Bowling/label_encoder_batting_team.pkl')
 label_encoder_bowler = joblib.load('../Bowling/label_encoder_bowler.pkl')
