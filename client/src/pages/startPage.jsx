@@ -47,7 +47,7 @@ function StartPage() {
   const welcomeText = "Welcome to the performance prediction platform!";
 
   const navigateToHome = () => {
-    navigate('/home');
+    navigate('/battinganalysis');
   };
 
   return (

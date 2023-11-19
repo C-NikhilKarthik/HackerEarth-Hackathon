@@ -9,6 +9,9 @@ import {
 
 } from "react-router-dom";
 import StartPage from "./pages/startPage";
+import Navbar from "./components/navbar";
+import BowlingAnalysis from "./pages/BowlingAnalysis";
+import TeamAnalysis from "./pages/TeamAnalysis";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -25,9 +28,12 @@ function App() {
   return (
     <>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<StartPage/>}/>
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/battinganalysis" element={<HomePage />} />
+          <Route path="/bowlinganalysis" element={<BowlingAnalysis />} />
+          <Route path="/teamanalysis" element={<TeamAnalysis/>} />
         </Routes>
       </Router>
     </>
