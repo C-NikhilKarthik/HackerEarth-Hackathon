@@ -177,7 +177,7 @@ const TeamAnalysis = () => {
           const randomBalls = Math.floor(Math.random() * 21); // Generate random number of balls
 
           axios
-            .post("http://localhost:5000/predict_batter_strike_rate", {
+            .post("https://hacker-earth-api.onrender.com/predict_batter_strike_rate", {
               match_id_scaled: 1,
               innings: data.Team1.Innings,
               batsmen_encoded: batsman,
@@ -213,7 +213,7 @@ const TeamAnalysis = () => {
           const randomBalls = Math.floor(Math.random() * 21); // Generate random number of balls
 
           axios
-            .post("http://localhost:5000/predict_batter_strike_rate", {
+            .post("https://hacker-earth-api.onrender.com/predict_batter_strike_rate", {
               match_id_scaled: 1,
               innings: data.Team2.Innings,
               batsmen_encoded: batsman,
