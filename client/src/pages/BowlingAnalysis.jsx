@@ -104,7 +104,7 @@ const BowlingAnalysis = () => {
   function getBatters() {
     try {
       axios
-        .post("http://localhost:5000/predict_bowler_economy", {
+        .post("https://hacker-earth-api.onrender.com/predict_bowler_economy", {
           match_id: 65646,
           venue: "Bellerive Oval",
           innings: Data.innings,
