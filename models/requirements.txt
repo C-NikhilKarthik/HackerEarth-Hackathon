@@ -1,0 +1,10 @@
+Flask
+Flask-Cors
+joblib
+numpy
+pandas
+scikit-learn
+scipy
+six
+Werkzeug
+waitress
