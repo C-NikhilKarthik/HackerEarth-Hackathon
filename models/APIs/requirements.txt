@@ -7,4 +7,4 @@ scikit-learn
 scipy
 six
 Werkzeug
-Gunicorn
+waitress

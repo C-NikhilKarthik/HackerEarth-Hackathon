@@ -1,6 +1,7 @@
 import joblib
 import pandas as pd
 import numpy as np
+from waitress import serve
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -16,11 +17,11 @@ label_encode_batter=joblib.load('../Batting/label_encoder_batter.pkl')
 label_encode_bowler_2=joblib.load('../Batting/label_encoder_bowler.pkl')
 
 
-model = joblib.load('../Bowling/bowler_economy_class_predictor.pkl', mmap_mode='r')
 scaler = joblib.load('../Bowling/bowler_standard_scaler.pkl')
 label_encoder_batting_team = joblib.load('../Bowling/label_encoder_batting_team.pkl')
 label_encoder_bowler = joblib.load('../Bowling/label_encoder_bowler.pkl')
 label_encoder_venue = joblib.load('../Bowling/label_encoder_venue.pkl')
+model = joblib.load('../Bowling/bowler_economy_class_predictor.pkl')
 
 @app.route('/predict_bowler_economy', methods=['POST'])
 def predict_bowler_economy():
@@ -77,4 +78,5 @@ def predict_batter_strike_rate():
     
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    # app.run(port=5000)
+    serve(app, host='0.0.0.0', port=5000)
